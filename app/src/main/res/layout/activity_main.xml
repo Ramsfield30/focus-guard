@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="#0D0D0D">
+
+    <TextView
+        android:id="@+id/appTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Focus Guard"
+        android:textSize="32sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Protection is OFF"
+        android:textSize="16sp"
+        android:textColor="#888888"
+        android:layout_marginBottom="48dp"/>
+
+    <Button
+        android:id="@+id/toggleButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Enable Protection"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/setPinButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Set PIN"
+        android:backgroundTint="#1E1E1E"
+        android:textColor="#FFFFFF"/>
+
+</LinearLayout>
