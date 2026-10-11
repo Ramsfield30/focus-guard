@@ -5,6 +5,7 @@ import android.net.VpnService
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -15,26 +16,36 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        try {
+            setContentView(R.layout.activity_main)
+            statusText = findViewById(R.id.statusText)
+            toggleButton = findViewById(R.id.toggleButton)
+            setPinButton = findViewById(R.id.setPinButton)
 
-        statusText = findViewById(R.id.statusText)
-        toggleButton = findViewById(R.id.toggleButton)
-        setPinButton = findViewById(R.id.setPinButton)
-
-        updateStatus()
-
-        toggleButton.setOnClickListener {
-            if (PinManager.isPinSet(this)) {
-                PinManager.showPinDialog(this) { correct ->
-                    if (correct) toggleVpn()
+            toggleButton.setOnClickListener {
+                try {
+                    if (PinManager.isPinSet(this)) {
+                        PinManager.showPinDialog(this) { correct ->
+                            if (correct) toggleVpn()
+                        }
+                    } else {
+                        toggleVpn()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
                 }
-            } else {
-                toggleVpn()
             }
-        }
 
-        setPinButton.setOnClickListener {
-            PinManager.showSetPinDialog(this)
+            setPinButton.setOnClickListener {
+                try {
+                    PinManager.showSetPinDialog(this)
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+
+        } catch (e: Exception) {
+            Toast.makeText(this, "Startup error: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -55,12 +66,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startVpn() {
-        val intent = Intent(this, BlockerVpnService::class.java)
-        startService(intent)
-        updateStatus()
-    }
-
-    private fun updateStatus() {
-        statusText.text = "Focus Guard is Active"
+        try {
+            val intent = Intent(this, BlockerVpnService::class.java)
+            startService(intent)
+            statusText.text = "Focus Guard is Active"
+            toggleButton.text = "Disable Protection"
+        } catch (e: Exception) {
+            Toast.makeText(this, "VPN Error: ${e.message}", Toast.LENGTH_LONG).show()
+        }
     }
 }
